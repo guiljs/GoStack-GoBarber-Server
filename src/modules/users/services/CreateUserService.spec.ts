@@ -3,11 +3,18 @@ import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import CreateuserService from './CreateUserService';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 
+let hashProvider: FakeHashProvider;
+let fakeUsersRepository: FakeUsersRepository;
+let createUser: CreateuserService;
+
 describe('CreateUser', () => {
+  beforeEach(() => {
+    hashProvider = new FakeHashProvider();
+    fakeUsersRepository = new FakeUsersRepository();
+    createUser = new CreateuserService(fakeUsersRepository, hashProvider);
+  });
+
   it('should be able to create a new user', async () => {
-    const hashProvider = new FakeHashProvider();
-    const fakeUserRepository = new FakeUsersRepository();
-    const createUser = new CreateuserService(fakeUserRepository, hashProvider);
     const user = await createUser.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
@@ -18,9 +25,6 @@ describe('CreateUser', () => {
   });
 
   it('should not be able to create a new user with same email from another', async () => {
-    const hashProvider = new FakeHashProvider();
-    const fakeUserRepository = new FakeUsersRepository();
-    const createUser = new CreateuserService(fakeUserRepository, hashProvider);
     await createUser.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
