@@ -8,6 +8,7 @@ export default class ProvidersController {
     const listProviders = container.resolve(ListProvidersService);
 
     const providers = await listProviders.execute(user_id);
+    // eslint-disable-next-line no-param-reassign
     providers.map(provider => delete provider.password);
     return resp.json(providers);
   }
