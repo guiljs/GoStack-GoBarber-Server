@@ -3,7 +3,7 @@ import { getDaysInMonth, getDate } from 'date-fns';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
 interface IRequest {
-  user_id: string;
+  provider_id: string;
   month: number;
   year: number;
 }
@@ -21,7 +21,7 @@ export default class ListProviderMonthAvailabilityService {
   ) {}
 
   public async execute({
-    user_id: provider_id,
+    provider_id,
     year,
     month,
   }: IRequest): Promise<IResponse> {
