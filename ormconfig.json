@@ -1,6 +1,6 @@
 [
   {
-    "name": "default",
+    "name":"default",
     "type":"postgres",
     "host":"192.168.99.100",
     "port":"5432",
@@ -19,13 +19,13 @@
   },
   {
     "name":"mongo",
-    "type":"mondodb",
+    "type":"mongodb",
     "host":"192.168.99.100",
     "port":"27017",
     "database":"gobarber",
     "useUnifiedTopology": true,
     "entities":[
       "./src/modules/**/infra/typeorm/schemas/*.ts"
-    ],
+    ]
   }
 ]
