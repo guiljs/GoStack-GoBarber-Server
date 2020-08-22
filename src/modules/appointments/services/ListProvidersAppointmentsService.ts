@@ -26,16 +26,26 @@ export default class ListProvidersAppointmentsService {
     month,
     day,
   }: IRequest): Promise<Appointment[]> {
-    const cacheData = await this.cacheProvider.recover('gui');
-    console.log(cacheData);
-    const appointments = await this.appointmentsRepository.findAllInDayFromProvider(
-      {
-        provider_id,
-        year,
-        month,
-        day,
-      },
+    // const cacheKey = `provider-appointments:${provider_id}:${year}:${month}:${day}`;
+    const cacheKey = `provider-appointments:${provider_id}:${year}-${month}-${day}`;
+
+    let appointments = await this.cacheProvider.recover<Appointment[]>(
+      cacheKey,
     );
+
+    if (!appointments) {
+      appointments = await this.appointmentsRepository.findAllInDayFromProvider(
+        {
+          provider_id,
+          year,
+          month,
+          day,
+        },
+      );
+
+      console.log('Buscou appointments do banco');
+      await this.cacheProvider.save(cacheKey, appointments);
+    }
 
     // await this.cacheProvider.save('gui', 'gui');
 
